@@ -5,8 +5,11 @@ const http = require('http');
 const fs = require('fs');
 
 const server = http.createServer((req, res) => {   // createServer returns a server object which is stored in variable.
-           
-        if(req.url === '/') {
+    
+    const url = req.url;
+    const method = req.method;
+
+        if(url === '/') {
             res.setHeader('Content-Type', 'text/html');
             res.write('<html>');
             res.write('<head><title>Enter Message</title></head>');
@@ -15,7 +18,7 @@ const server = http.createServer((req, res) => {   // createServer returns a ser
             return res.end();
         }
 
-        if(req.url === '/message' && req.method === 'POST') {
+        if(url === '/message' && method === 'POST') {
             const body = [];
 
             req.on('data', (chunk) => {
@@ -27,8 +30,8 @@ const server = http.createServer((req, res) => {   // createServer returns a ser
                 const parsedBody = Buffer.concat(body).toString();
                 console.log(parsedBody);
                 const message = parsedBody.split('=')[1];
-                // fs.writeFileSync('userMsg.txt', message);
-                fs.writeFile('userMsg.txt', message, (err) => {
+               
+                fs.writeFile('message.txt', message, (err) => {
                     res.statusCode = 302;              //procedure to redirect to a page
                     res.setHeader('Location', '/');
                    return res.end();
