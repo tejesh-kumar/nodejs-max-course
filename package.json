@@ -19,5 +19,8 @@
   "homepage": "https://github.com/tejesh-kumar/nodejs-max-course#readme",
   "devDependencies": {
     "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

@@ -1,14 +1,11 @@
-// http, https, fs, path, os are default packages that ship with node.
-
-// create a node server
 const http = require('http');
 
-const routes = require('./routes');
+const express = require('express');   // express exports a express() function to create an instance
 
-console.log(routes.someText);
+const app = express();   // creating an express app & storing in variable. Now, the app is a valid request handler.
 
-const server = http.createServer(routes.handler);   // createServer returns a server object which is stored in variable.
+const server = http.createServer(app);    // app - requesthandler  
 
-server.listen(3000);       // listen allows nodejs to receive incoming requests instead of quitting. listen takes two optional arguments(port, hostname=localhost in development)
+server.listen(3000);       
 
 
