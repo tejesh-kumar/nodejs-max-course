@@ -47,10 +47,10 @@ const method = req.method;
 // module.exports = requestHandler;
 
 // // multiple exports (multiple-ways)
-// module.exports = {
-//     handler: requestHandler,
-//     someText: 'Hardcoded text'
-// }
+module.exports = {
+    handler: requestHandler,
+    someText: 'Hardcoded text'
+}
 
 // module.exports.handler = requestHandler;
 // module.exports.someText = 'Hardcoded text';
