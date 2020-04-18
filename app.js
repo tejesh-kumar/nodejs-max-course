@@ -27,13 +27,13 @@ const server = http.createServer((req, res) => {   // createServer returns a ser
                 const parsedBody = Buffer.concat(body).toString();
                 console.log(parsedBody);
                 const message = parsedBody.split('=')[1];
-                fs.writeFileSync('userMsg.txt', message);
-                res.statusCode = 302;              //procedure to redirect to a page
-                res.setHeader('Location', '/');
-               return res.end();
+                // fs.writeFileSync('userMsg.txt', message);
+                fs.writeFile('userMsg.txt', message, (err) => {
+                    res.statusCode = 302;              //procedure to redirect to a page
+                    res.setHeader('Location', '/');
+                   return res.end();
+                });  // writeFileSync(filename, message) is writing to file synchronously which will block the thread, hence writeFile(filename, message, callback) to make this process asynchronously.
             })
-
-            // res.setHeader('Content-Type', 'text/html');
            
         }
 
