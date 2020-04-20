@@ -12,12 +12,17 @@ app.use(adminRoutes);
 
 app.use(shopRoutes);
 
-
+app.use((req, res, next) => {
+    res.status(404).send('<h1>Page Not Found</h1>');  
+})
 
 app.listen(3000);    
 
 
 
 
-// admin.js, shop.js contains the routes related to admin and users functionalities
-
+// app.use((req, res, next) => {
+//     res.status(404).send('<h1>Page Not Found</h1>');  
+// })
+// middleware to handle default route(404 page).
+// res.status(404).send('<h1>Page Not Found</h1>');   // methods like status() or setHeader() can be chained but send must be last method.

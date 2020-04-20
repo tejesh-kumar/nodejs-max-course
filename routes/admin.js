@@ -20,6 +20,3 @@ router.post('/product', (req, res, next) => {
 module.exports = router;
 
 
-// const router = express.Router() - 'router' is like mini express app tied or pluggable to other express app.
-// module.exports = router - 'router' can be exported this way & this Router is used to register routes.
-// router is a valid middleware function hence it can be used as app.use(adminRoutes);
