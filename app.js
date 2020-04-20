@@ -8,9 +8,9 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(adminRoutes);
+app.use('/admin', adminRoutes);
 
-app.use(shopRoutes);
+app.use('/shop', shopRoutes);
 
 app.use((req, res, next) => {
     res.status(404).send('<h1>Page Not Found</h1>');  
@@ -21,8 +21,21 @@ app.listen(3000);
 
 
 
-// app.use((req, res, next) => {
-//     res.status(404).send('<h1>Page Not Found</h1>');  
-// })
-// middleware to handle default route(404 page).
-// res.status(404).send('<h1>Page Not Found</h1>');   // methods like status() or setHeader() can be chained but send must be last method.
+// Instead of using
+// router.post('/admin/add-product', (req, res, next) => {         // in admin.js file    
+//     // res.send('<h1>Product Added Successfully</h1>');
+//     console.log(req.body);         
+//     res.redirect('/');                   
+// });
+
+// app.use('admin', adminRoutes);       // in app.js file
+
+
+// We can filter paths using this method
+// router.post('/add-product', (req, res, next) => {            // in admin.js file 
+//     // res.send('<h1>Product Added Successfully</h1>');
+//     console.log(req.body);         
+//     res.redirect('/');                   
+// });
+
+// app.use('admin', adminRoutes);       // in app.js file
