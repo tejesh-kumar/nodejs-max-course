@@ -25,11 +25,8 @@ app.use((req, res, next) => {
 app.listen(3000);    
 
 
-
-// ejs templating engine
-// <title><%= pageTitle %></title>  // pageTitle contains dynamic content to be displayed. '=' is used in <%= pageTitle %> if we are directly outputting a value in pageTitle otherwise we use <% %>
-// <%  %> - We can write normal js code.
-// includes folder contains code blocks that need to be used across different ejs templates.
-// To render the html code <%- include() %>, prevents cross site scripting attacks also. include('path to file which contains html relative to the file we are importing into') allows html from other files to be included.
-// html elements rendered within <%= %> is rendered as text.
-
+// Model View Controllers
+// model - objects that represents data in your code & allowing to work with data (eg:- save, fetch to or from a file)
+// views - responsible for what the user sees. Rendering the right content in the html. They are decoupled from your application code and things like templating engines can be used to generate the views by inserting data.
+// controllers - connects models with views. Act like middleware, contains inbetween logic. Controllers are split across different middleware functions.
+// So, the Routes decide which controllers to run for that route, and those controllers decide which models & views should run. 
