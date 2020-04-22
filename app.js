@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const rootDir = require('./util/path');
 const adminData = require('./routes/admin');
@@ -9,7 +10,8 @@ const shopRoutes = require('./routes/shop');
 
 const app = express();   
 
-app.set('view engine', 'pug');      // pug is a registered templating engine to deliver templates.
+app.engine('hbs', expressHbs());   // express is made aware of handlebars engine is available.
+app.set('view engine', 'hbs');      // handlebars is a registered templating engine to deliver templates.
 app.set('views', 'views');        // views in root folder is the place to find dynamic views or templates is registered.
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -27,9 +29,10 @@ app.use((req, res, next) => {
 app.listen(3000);    
 
 
-// block styles - block keyword in pug allows to add extra html lines in other files (eg:- additional css files linked with link tags for which 'styles' is placeholder).
-//extends layouts/main-layout.pug   // extends the common layout into other pages(eg:- header).
-// block content            // defining what the content variable must render in 404 page.
-//      h1 Page not found
-
+// We have to manually instally express-handlebars using
+// const expressHbs = require('express-handlebars');
+// app.engine('handlebars', expressHbs());   // express is made aware of handlebars engine is available (expressHbs() - initializes the engine)
+// app.set('view engine', 'handlebars');     // handlebars is a registered templating engine to deliver templates.
+// extension of files must match the variable 'handlebars' (eg:- shop.handlebars).
+// Dynamic content in handlebars is loaded within {{pageTitle}}.
 
