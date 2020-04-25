@@ -23,9 +23,3 @@ app.use(errorController.get404);
 app.listen(3000);    
 
 
-// index.ejs - starting file with lesser number of products.
-// product-detail.ejs - product detail page on clicking on paroduct.
-// cart.ejs - add products to cart.
-// checkout.ejs - show flow of product orders from cart.
-// edit-product.ejs - edit the details of product by admin.
-// products.ejs - displaying products for admin to view. 

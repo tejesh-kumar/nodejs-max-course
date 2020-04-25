@@ -1,4 +1,3 @@
-// products controller logic - All controller logics involving the products is contained in this folder
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {                
@@ -19,14 +18,10 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {   
     Product.fetchAll((products) => {
-        res.render('shop/product-list', {           // path must be viewed as root folder is views.
+        res.render('admin/products', {           // path must be viewed as root folder is views.
             prods: products, 
-            pageTitle: 'Shop', 
-            path: '/',
-            hasProducts: products.length > 0,
-            activeShop: true,
-            productCSS: true
+            pageTitle: 'Admin Products', 
+            path: '/admin/products'
         });    
     });
 }
-
