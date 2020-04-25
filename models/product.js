@@ -27,7 +27,7 @@ module.exports = class Product {
         })                   
     }
 
-    static fetchAll() {   
+    static fetchAll(cb) {   
         const p = path.join(
             path.dirname(process.mainModule.filename), 
             'data', 
@@ -35,10 +35,10 @@ module.exports = class Product {
         );  
         
         fs.readFile(p, (err, fileContent) => {
-            if(err) {                                // err - No file in this name, hence no products
-                return [];
+            if(err) {                                // cb - callback function is passed to fetchAll(), hence once it returns the array to products, then it is res.render({...}) rendered.
+                cb([]);
             }
-            return(JSON.parse(fileContent));
+            cb(JSON.parse(fileContent)); 
         })
     }
 }
