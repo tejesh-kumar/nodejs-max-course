@@ -7,7 +7,7 @@ const p = path.join(
     'products.json'
 );  
 
-const getContentsFromFile = (cb) => {
+const getProductsFromFile = (cb) => {
     fs.readFile(p, (err, fileContent) => {
         if(err) {                                // cb - callback function is passed to fetchAll(), hence once it returns the array to products, then it is res.render({...}) rendered.
            cb([]);
@@ -28,7 +28,7 @@ module.exports = class Product {
 
     save() {
         this.id = Math.random().toString();                        // Adds an unique product id while saving in the file.
-        getContentsFromFile((products) => {
+        getProductsFromFile((products) => {
             products.push(this);
             fs.writeFile(p, JSON.stringify(products), (err) => {
                 console.log(err);
@@ -37,6 +37,13 @@ module.exports = class Product {
     }
 
     static fetchAll(cb) {   
-        getContentsFromFile(cb);
+        getProductsFromFile(cb);
+    }
+
+    static findById(id, cb) {   
+        getProductsFromFile((products) => {
+            const product = products.find(p => id === p.id);
+            cb(product);
+        });
     }
 }
