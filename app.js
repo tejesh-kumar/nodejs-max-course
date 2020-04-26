@@ -23,6 +23,3 @@ app.use(errorController.get404);
 app.listen(3000);    
 
 
-// editing a product
-// edit-product.ejs template can be used for both adding & editing a product.
-// Moving the code from add-product.ejs to edit-product.ejs & deleting add-product.ejs.

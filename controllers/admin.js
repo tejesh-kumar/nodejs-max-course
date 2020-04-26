@@ -3,7 +3,8 @@ const Product = require('../models/product');
 exports.getAddProduct = (req, res, next) => {                
     res.render('admin/edit-product', {
         pageTitle: 'Add Product', 
-        path: '/admin/add-product'
+        path: '/admin/add-product',
+        editing: false
     });
 }
 
@@ -25,11 +26,37 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/');
     }
 
-    res.render('admin/edit-product', {
-        pageTitle: 'Edit Product', 
-        path: '/admin/edit-product',
-        editing: editMode
+    const prodId = req.params.productId;
+    Product.findById(prodId, (product) => {
+
+        if(!product) {
+            return res.redirect('/');
+        }
+
+        res.render('admin/edit-product', {
+            pageTitle: 'Edit Product', 
+            path: '/admin/edit-product',
+            editing: editMode,
+            product: product
+        });
     });
+
+}
+
+exports.postEditProduct = (req, res, next) => {
+    const editedProductDetails = {
+        id: req.body.id,
+        title: req.body.title,
+        imageUrl: req.body.imageUrl,
+        price: req.body.price,
+        description: req.body.description
+    }
+
+    const updatedProduct = new Person(editedProductDetails.title, editedProductDetails.imageUrl, editedProductDetails.description, editedProductDetails.price);
+//    Product.fetchAll((products) => {
+//        const products = [ ...products ];
+//        products[editProductIndex] = updatedProduct;
+//    });
 }
 
 exports.getProducts = (req, res, next) => {   
