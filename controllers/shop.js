@@ -2,12 +2,13 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {   
-    Product.fetchAll((products) => {
+    Product.fetchAll()
+    .then(([rows, fieldData]) => {
         res.render('shop/product-list', {           // path must be viewed as root folder is views.
-            prods: products, 
+            prods: rows, 
             pageTitle: 'All Products', 
             path: '/products'
-        });    
+        }); 
     });
 }
 
@@ -25,13 +26,19 @@ exports.getProduct = (req, res, next) => {
 
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll((products) => {
+    Product.fetchAll()
+    .then(([rows, fieldData]) => {
         res.render('shop/index', {           // path must be viewed as root folder is views.
-            prods: products, 
+            prods: rows, 
             pageTitle: 'Shop', 
             path: '/'
         });    
-    });
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+
 }
 
 exports.getCart = (req, res, next) => {

@@ -6,15 +6,7 @@ const bodyParser = require('body-parser');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/error');
-const db = require('./util/database');
-
-db.execute('SELECT * FROM products')
-.then(result => {
-    console.log(result[0], result[1]);
-})
-.catch(err => {
-    console.log(err);
-});
+// const db = require('./util/database');
 
 const app = express();   
 
@@ -32,3 +24,18 @@ app.use(errorController.get404);
 app.listen(3000);    
 
 
+// In product.js model
+    // static fetchAll() {   
+    //     return db.execute('SELECT * FROM products');     // returns a promise
+    // }
+// In shop.js controller
+    // exports.getProducts = (req, res, next) => {   
+    //     Product.fetchAll()
+    //     .then(([rows, fieldData]) => {                  // Array destructuring
+    //         res.render('shop/product-list', {           // path must be viewed as root folder is views.
+    //             prods: rows, 
+    //             pageTitle: 'All Products', 
+    //             path: '/products'
+    //         }); 
+    //     });
+    // }
