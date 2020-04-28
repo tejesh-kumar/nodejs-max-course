@@ -14,14 +14,17 @@ exports.postAddProduct = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
 
-    const product = new Product(null, title, imageUrl, description, price);      // product is created by instantiation of class.
-    product.save()
-    .then(() => {
-        res.redirect('/');
+    Product.create({
+        title: title,
+        price: price,
+        imageUrl: imageUrl,
+        description: description
     })
-    .catch(err => {
-        console.log(err);
-    });                                                      // To save the product               
+    .then(result => {
+        // console.log(result);
+        console.log('Product Created');
+    })
+    .catch(err => console.log(err));             
 }
 
 exports.getEditProduct = (req, res, next) => {

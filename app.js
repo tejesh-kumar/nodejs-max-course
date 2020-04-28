@@ -23,20 +23,16 @@ app.use(errorController.get404);
 
 sequelize.sync()
 .then(result => {
-    console.log(result);
+    // console.log(result);
     app.listen(3000); 
 })
 .catch(err => console.log(err));
 
+
+// create() is a sequelize method creates a new element based on the model & immediately saves it in database.
+// build() only creates a new element in js, but we manually have to save it to db.
+// Product.create() 
+
    
 
 
-// To create tables for product model by sequelize, we make sure that all models get transformed into tables, or a table that belongs to model on starting the application.   
-// sync() looks at all the models which are defined & create a tables for them & relations if we have.
-// Starting the server only if no error in creating tables.
-//      const sequelize = require('./util/database');
-        // sequelize.sync().then(result => {
-        //     console.log(result);
-        //     app.listen(3000); 
-        // })
-        // .catch(err => console.log(err));
