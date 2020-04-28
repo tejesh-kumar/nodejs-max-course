@@ -29,9 +29,7 @@ sequelize.sync()
 .catch(err => console.log(err));
 
 
-// create() is a sequelize method creates a new element based on the model & immediately saves it in database.
-// build() only creates a new element in js, but we manually have to save it to db.
-// Product.create() 
+// findAll() - sequelize method which gets all the records for this model
 
    
 
