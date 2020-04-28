@@ -24,10 +24,4 @@ app.use(errorController.get404);
 app.listen(3000);    
 
 
-// Insert product into database.
-    // save() {
-    //     return db.execute('INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)',
-    //     [this.title, this.price, this.description, this.imageUrl]
-    //     );
-    // }
-// '?' helps to prevent sql injection attacks.
+

@@ -21,8 +21,7 @@ exports.postAddProduct = (req, res, next) => {
     })
     .catch(err => {
         console.log(err);
-    });                                                      // To save the product
-                       
+    });                                                      // To save the product               
 }
 
 exports.getEditProduct = (req, res, next) => {
