@@ -28,8 +28,29 @@ sequelize.sync()
 })
 .catch(err => console.log(err));
 
-
-// findAll() - sequelize method which gets all the records for this model
+// Two ways to find a product by id using sequelize from table.
+// Product.findByPk(productId) will return the particular product from table.
+// Product.findAll({where: {id: prodId}}) will return an array of products matching this id.
+// exports.getProduct = (req, res, next) => {
+//     const prodId = req.params.productId;
+//     Product.findAll({where: {id: prodId}}).then(products => {
+//             res.render('shop/product-detail', {
+//             product: products[0],
+//             pageTitle: products[0].title,
+//             path: '/products'
+//         });
+//     })
+//     .catch(err => console.log(err));
+    // Product.findByPk(prodId)
+    // .then(product => {
+    //     res.render('shop/product-detail', {
+    //         product: product,
+    //         pageTitle: product.title,
+    //         path: '/products'
+    //     });
+    // })
+    // .catch(err => console.log(err));
+// }
 
    
 
