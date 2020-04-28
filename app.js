@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/error');
-// const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const app = express();   
 
@@ -21,15 +21,22 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);    
+sequelize.sync()
+.then(result => {
+    console.log(result);
+    app.listen(3000); 
+})
+.catch(err => console.log(err));
+
+   
 
 
-// In product.js, 
-// Import Sequelize & sequelize to create a product model establish a database connection.
-
-//'product' - name of model.
-// The object parameter defines the model and also the database structure.
-
-    // const Sequelize = require('sequelize');
-    // const sequelize = require('../util/database');
-    // const Product = sequelize.define('product', {});    
+// To create tables for product model by sequelize, we make sure that all models get transformed into tables, or a table that belongs to model on starting the application.   
+// sync() looks at all the models which are defined & create a tables for them & relations if we have.
+// Starting the server only if no error in creating tables.
+//      const sequelize = require('./util/database');
+        // sequelize.sync().then(result => {
+        //     console.log(result);
+        //     app.listen(3000); 
+        // })
+        // .catch(err => console.log(err));
