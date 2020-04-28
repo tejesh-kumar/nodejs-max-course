@@ -24,18 +24,10 @@ app.use(errorController.get404);
 app.listen(3000);    
 
 
-// In product.js model
-    // static fetchAll() {   
-    //     return db.execute('SELECT * FROM products');     // returns a promise
+// Insert product into database.
+    // save() {
+    //     return db.execute('INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)',
+    //     [this.title, this.price, this.description, this.imageUrl]
+    //     );
     // }
-// In shop.js controller
-    // exports.getProducts = (req, res, next) => {   
-    //     Product.fetchAll()
-    //     .then(([rows, fieldData]) => {                  // Array destructuring
-    //         res.render('shop/product-list', {           // path must be viewed as root folder is views.
-    //             prods: rows, 
-    //             pageTitle: 'All Products', 
-    //             path: '/products'
-    //         }); 
-    //     });
-    // }
+// '?' helps to prevent sql injection attacks.
