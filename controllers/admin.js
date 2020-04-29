@@ -35,8 +35,8 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const prodId = req.params.productId;
-    Product.findById(prodId, (product) => {
-
+    Product.findByPk(prodId)
+    .then(product => {
         if(!product) {
             return res.redirect('/');
         }
@@ -47,12 +47,12 @@ exports.getEditProduct = (req, res, next) => {
             editing: editMode,
             product: product
         });
-    });
-
+    })
+    .catch(err => console.log(err)); 
 }
 
 exports.postEditProduct = (req, res, next) => {
-    const editedProductDetails = {
+    const productData = {
         id: req.body.productId,
         title: req.body.title,
         imageUrl: req.body.imageUrl,
@@ -60,11 +60,21 @@ exports.postEditProduct = (req, res, next) => {
         description: req.body.description
     }
 
-    console.log(editedProductDetails);
+    Product.findByPk(productData.id)
+    .then((product) => {
+        product.id = productData.id;
+        product.title = productData.title;
+        product.imageUrl = productData.imageUrl;
+        product.price = productData.price;
+        product.description = productData.description;      // changes are saved only in js object but not in database.
 
-    const updatedProduct = new Product(editedProductDetails.id, editedProductDetails.title, editedProductDetails.imageUrl, editedProductDetails.description, editedProductDetails.price);
-    updatedProduct.save();
-    res.redirect('/admin/products');
+        return product.save();                                    // Now, changes are saved or updated to the database.
+    })
+    .then(() => {
+        console.log('Product updated successfully');        // Instead of chaining promises inside the 1st promise is returned & another then() method performs subsequent operations, the single 'catch()' catches any errors in all 'then()' blocks.
+        res.redirect('/admin/products');
+    })
+    .catch(err => console.log(err));  
 }
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -72,15 +82,17 @@ exports.postDeleteProduct = (req, res, next) => {
 
     Product.delete(prodId);
     res.redirect('/admin/products');
-    
 }
 
 exports.getProducts = (req, res, next) => {   
-    Product.fetchAll((products) => {
+    Product.findAll()
+    .then((products) => {
         res.render('admin/products', {           // path must be viewed as root folder is views.
             prods: products, 
             pageTitle: 'Admin Products', 
             path: '/admin/products'
-        });    
-    });
+        }); 
+    })
+    .catch(err => console.log(err));
+           
 }
