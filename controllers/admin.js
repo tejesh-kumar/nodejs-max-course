@@ -36,8 +36,10 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const prodId = req.params.productId;
-    Product.findByPk(prodId)
-    .then(product => {
+    req.user.getProducts({where: {id: prodId}})
+    // Product.findByPk(prodId)
+    .then(products => {
+        const product = products[0];
         if(!product) {
             return res.redirect('/');
         }
@@ -92,8 +94,9 @@ exports.postDeleteProduct = (req, res, next) => {
     .catch(err => console.log(err));
 }
 
-exports.getProducts = (req, res, next) => {   
-    Product.findAll()
+exports.getProducts = (req, res, next) => {  
+    req.user.getProducts() 
+    // Product.findAll()
     .then((products) => {
         res.render('admin/products', {           // path must be viewed as root folder is views.
             prods: products, 
