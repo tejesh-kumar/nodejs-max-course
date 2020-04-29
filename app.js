@@ -28,19 +28,5 @@ sequelize.sync()
 })
 .catch(err => console.log(err));
 
-// Deleting products using Sequelize.
 
-    // exports.postDeleteProduct = (req, res, next) => {
-    //     const prodId = req.body.productId;
-
-    //     Product.findByPk(prodId)
-    //     .then(product => {
-    //         return product.destroy();
-    //     })
-    //     .then(() => {
-    //         console.log('Destroyed Product');
-    //         res.redirect('/admin/products');
-    //     })
-    //     .catch(err => console.log(err));
-    // }
 
