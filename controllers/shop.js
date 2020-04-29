@@ -15,14 +15,6 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
-    // Product.findAll({where: {id: prodId}}).then(products => {
-    //         res.render('shop/product-detail', {
-    //         product: products[0],
-    //         pageTitle: products[0].title,
-    //         path: '/products'
-    //     });
-    // })
-    // .catch(err => console.log(err));
     Product.findByPk(prodId)
     .then(product => {
         res.render('shop/product-detail', {
@@ -48,23 +40,37 @@ exports.getIndex = (req, res, next) => {
 }
 
 exports.getCart = (req, res, next) => {
-    Cart.getCart(cart => {
-        Product.fetchAll(products => {
-            const cartProducts = [];
-            for(product of products) {
-                const cartProductData = cart.products.find(p => p.id === product.id);
-                if(cart.products.find(p => product.id === p.id)) {
-                    cartProducts.push({productData: product, qty: cartProductData.qty});
-                }
-            }
-            
+    req.user.getCart()
+    .then(cart => {
+        return cart.getProducts();
+    })
+    .then(products => {
             res.render('shop/cart', {
-                pageTitle: 'Your Cart',
-                path: '/cart',
-                products: cartProducts
-            });
-        })
-    });
+            pageTitle: 'Your Cart',
+            path: '/cart',
+            products: products
+        });
+    })
+    .catch(err => console.log(err));
+
+
+    // Cart.getCart(cart => {
+    //     Product.fetchAll(products => {
+    //         const cartProducts = [];
+    //         for(product of products) {
+    //             const cartProductData = cart.products.find(p => p.id === product.id);
+    //             if(cart.products.find(p => product.id === p.id)) {
+    //                 cartProducts.push({productData: product, qty: cartProductData.qty});
+    //             }
+    //         }
+            
+    //         res.render('shop/cart', {
+    //             pageTitle: 'Your Cart',
+    //             path: '/cart',
+    //             products: cartProducts
+    //         });
+    //     })
+    // });
 }
 
 exports.postCart = (req, res, next) => {
