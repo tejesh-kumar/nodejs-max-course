@@ -11,6 +11,8 @@ const Product = require('./models/product');
 const User = require('./models/user');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const Order = require('./models/order');
+const OrderItem = require('./models/order-item');
 
 
 const app = express();   
@@ -35,11 +37,15 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
-User.hasMany(Product, {constraints: true});
+User.hasMany(Product);
 User.hasOne(Cart);
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.belongsToMany(Product, { through: OrderItem });
+// Product.belongsTo(Order, { through: OrderItem });
 
 // sequelize.sync({force: true})
 sequelize.sync()
@@ -63,3 +69,5 @@ sequelize.sync()
 .catch(err => console.log(err));
 
 
+//  On clicking 'checkout' in cart all products from cart must be removed & create a new order that is related to couple of products & a user.
+//  Order is an in-between table (between a user (to which this order belongs) and multiple products present in this order)
