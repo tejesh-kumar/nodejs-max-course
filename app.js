@@ -69,5 +69,4 @@ sequelize.sync()
 .catch(err => console.log(err));
 
 
-//  On clicking 'checkout' in cart all products from cart must be removed & create a new order that is related to couple of products & a user.
-//  Order is an in-between table (between a user (to which this order belongs) and multiple products present in this order)
+
