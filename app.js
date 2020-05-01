@@ -3,16 +3,10 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+// const adminRoutes = require('./routes/admin');
+// const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/error');
-const sequelize = require('./util/database');
-const Product = require('./models/product');
-const User = require('./models/user');
-const Cart = require('./models/cart');
-const CartItem = require('./models/cart-item');
-const Order = require('./models/order');
-const OrderItem = require('./models/order-item');
+const mongoConnect = require('./util/database');
 
 
 const app = express();   
@@ -24,49 +18,33 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findByPk(1)
-    .then(user => {
-        req.user = user;
-        next();              // We stored the sequelize object 'user' in 'req' object, but, we are not sending response => we use next() so that the request is funneled to next middlewares.
-    })
+    // User.findByPk(1)
+    // .then(user => {
+    //     req.user = user;
+    //     next();              
+    // })
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+// app.use('/admin', adminRoutes);
+// app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-Product.belongsTo(User, {constraints: true, onDelete: 'CASCADE'});
-User.hasMany(Product);
-User.hasOne(Cart);
-Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
-Order.belongsTo(User);
-User.hasMany(Order);
-Order.belongsToMany(Product, { through: OrderItem });
-// Product.belongsTo(Order, { through: OrderItem });
-
-// sequelize.sync({force: true})
-sequelize.sync()
-.then(result => {
-    return User.findByPk(1); 
-})
-.then((user) => {
-    if(!user) {
-        return User.create({ name: 'tejesh', email: 'tejesh@gmail.com' });
-    } 
-    // return Promise.resolve('user');
-    return user;
-})
-.then((user) => {
-    // console.log(user);
-    user.createCart();
-})
-.then((cart) => {
-    app.listen(3000); 
-})
-.catch(err => console.log(err));
+mongoConnect((client) => {
+    console.log(client);
+    app.listen(3000);
+});
 
 
 
+
+// Installing mongodb driver
+// npm install --save mongodb  => mongodb driver to connect to mongodb.
+
+    // const mongodb = require('mongodb');
+    // const MongoClient = mongodb.MongoClient;
+    // MongoClient.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.net/test?retryWrites=true&w=majority');
+// We can connect this 'MongoClient' to the mongodb database.
+// mongodb+srv://tejesh:<password>@max-node-vpc9g.mongodb.net/test?retryWrites=true&w=majority => connection-string. 
+// Replace the correct userName & password.
+// 'connect' method returns a promise
