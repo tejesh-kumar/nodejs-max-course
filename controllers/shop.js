@@ -1,7 +1,8 @@
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {   
-    Product.findAll().then(products => {
+    Product.fetchAll()
+    .then(products => {
         res.render('shop/product-list', {           // path must be viewed as root folder is views.
             prods: products, 
             pageTitle: 'All Products', 
@@ -27,7 +28,7 @@ exports.getProduct = (req, res, next) => {
 
 
 exports.getIndex = (req, res, next) => {
-    Product.findAll()
+    Product.fetchAll()
     .then((products) => {
         res.render('shop/index', {           // path must be viewed as root folder is views.
             prods: products, 
