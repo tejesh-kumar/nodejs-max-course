@@ -1,5 +1,3 @@
-const mongodb = require('mongodb');
-
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {                
@@ -19,7 +17,6 @@ exports.postAddProduct = (req, res, next) => {
     const product = new Product(title, price, description, imageUrl);
     product.save()
     .then(result => {
-        // console.log(result);
         console.log('Product Created');
         res.redirect('/admin/products');
     })
@@ -60,7 +57,7 @@ exports.postEditProduct = (req, res, next) => {
         description: req.body.description
     }
 
-    const product = new Product(productData.title, productData.price, productData.description, productData.imageUrl, new mongodb.ObjectID(productData.id));
+    const product = new Product(productData.title, productData.price, productData.description, productData.imageUrl, productData.id);
     product.save()
     .then(() => {
         console.log('Product updated successfully');        // Instead of chaining promises inside the 1st promise is returned & another then() method performs subsequent operations, the single 'catch()' catches any errors in all 'then()' blocks.
@@ -72,12 +69,9 @@ exports.postEditProduct = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
 
-    Product.findById(prodId)
-    .then(product => {
-        return product.destroy();
-    })
-    .then(() => {
-        console.log('Destroyed Product');
+    Product.deleteById(prodId)
+    .then((result) => {
+        console.log('Product deleted successfully!');
         res.redirect('/admin/products');
     })
     .catch(err => console.log(err));
@@ -86,7 +80,7 @@ exports.postDeleteProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {  
     Product.fetchAll()
     .then((products) => {
-        res.render('admin/products', {           // path must be viewed as root folder is views.
+        res.render('admin/products', {           
             prods: products, 
             pageTitle: 'Admin Products', 
             path: '/admin/products'
