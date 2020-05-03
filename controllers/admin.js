@@ -1,3 +1,5 @@
+const mongodb = require('mongodb');
+
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {                
@@ -32,10 +34,9 @@ exports.getEditProduct = (req, res, next) => {
     }
 
     const prodId = req.params.productId;
-    req.user.getProducts({where: {id: prodId}})
-    // Product.findByPk(prodId)
-    .then(products => {
-        const product = products[0];
+
+    Product.findById(prodId)
+    .then(product => {
         if(!product) {
             return res.redirect('/');
         }
@@ -59,16 +60,8 @@ exports.postEditProduct = (req, res, next) => {
         description: req.body.description
     }
 
-    Product.findByPk(productData.id)
-    .then((product) => {
-        product.id = productData.id;
-        product.title = productData.title;
-        product.imageUrl = productData.imageUrl;
-        product.price = productData.price;
-        product.description = productData.description;      // changes are saved only in js object but not in database.
-
-        return product.save();                                    // Now, changes are saved or updated to the database.
-    })
+    const product = new Product(productData.title, productData.price, productData.description, productData.imageUrl, new mongodb.ObjectID(productData.id));
+    product.save()
     .then(() => {
         console.log('Product updated successfully');        // Instead of chaining promises inside the 1st promise is returned & another then() method performs subsequent operations, the single 'catch()' catches any errors in all 'then()' blocks.
         res.redirect('/admin/products');
@@ -79,7 +72,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
 
-    Product.findByPk(prodId)
+    Product.findById(prodId)
     .then(product => {
         return product.destroy();
     })
