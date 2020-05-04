@@ -22,10 +22,9 @@ app.use((req, res, next) => {
     User.findById('5eaec41c3b43c24eef83172f')
     .then(user => {
         console.log(user);
-        req.user = user;
+        req.user = new User(user.name, user.email, user.cart, user._id);
         next();              
     })
-    // next();
 });
 
 app.use('/admin', adminRoutes);
@@ -36,3 +35,8 @@ app.use(errorController.get404);
 mongoConnect(() => {
     app.listen(3000);
 });
+
+
+
+
+ 
