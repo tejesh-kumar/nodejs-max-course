@@ -40,12 +40,10 @@ mongoose.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.n
 
 
 
-// Establish db connection with mongoose
-// Provide the connection string from your account db in mongodb.
-    // mongoose.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.net/shop?retryWrites=true&w=majority')
-    // .then(result => {
-    //     app.listen(3000);
-    // })
-    // .catch(err => console.log(err));
+// Drop the shop collection in mongodb.
+// In product model,
+// Import mongoose & create a 'Schema' which is a constructor function. This constructor allows me to create new schemas (eg: productSchema)
+
+// This object passed to constructor defines the fields and their datatypes present in productSchema. Object-Id will be added to schema automatically.
 
  
