@@ -43,9 +43,6 @@ mongoose.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.n
 
 
 
-// Saving Data through mongoose
-// mongoose.model() - This method helps schema to connect to a name
-// The product constructor takes an object as argument which contains mapping of values to the fields in productSchema.
-// Mongoose provides a save method.
+
 
  
