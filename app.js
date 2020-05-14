@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/error');
-const User = require('./models/user');
+// const User = require('./models/user');
 
 
 const app = express();   
@@ -18,14 +18,14 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-    User.findById('5eaec41c3b43c24eef83172f')
-    .then(user => {
-        console.log(user);
-        req.user = new User(user.name, user.email, user.cart, user._id);
-        next();              
-    })
-});
+// app.use((req, res, next) => {
+//     User.findById('5eaec41c3b43c24eef83172f')
+//     .then(user => {
+//         console.log(user);
+//         req.user = new User(user.name, user.email, user.cart, user._id);
+//         next();              
+//     })
+// });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -40,10 +40,12 @@ mongoose.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.n
 
 
 
-// Drop the shop collection in mongodb.
-// In product model,
-// Import mongoose & create a 'Schema' which is a constructor function. This constructor allows me to create new schemas (eg: productSchema)
 
-// This object passed to constructor defines the fields and their datatypes present in productSchema. Object-Id will be added to schema automatically.
+
+
+// Saving Data through mongoose
+// mongoose.model() - This method helps schema to connect to a name
+// The product constructor takes an object as argument which contains mapping of values to the fields in productSchema.
+// Mongoose provides a save method.
 
  

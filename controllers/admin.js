@@ -13,9 +13,14 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    const userId = req.user._id;
+    // const userId = req.user._id;
 
-    const product = new Product(title, price, description, imageUrl, null, userId);
+    const product = new Product({
+        title: title, 
+        price: price, 
+        description: description, 
+        imageUrl: imageUrl
+    });
     product.save()
     .then(result => {
         console.log('Product Created');
@@ -61,7 +66,7 @@ exports.postEditProduct = (req, res, next) => {
     const product = new Product(productData.title, productData.price, productData.description, productData.imageUrl, productData.id);
     product.save()
     .then(() => {
-        console.log('Product updated successfully');        // Instead of chaining promises inside the 1st promise is returned & another then() method performs subsequent operations, the single 'catch()' catches any errors in all 'then()' blocks.
+        console.log('Product updated successfully');       
         res.redirect('/admin/products');
     })
     .catch(err => console.log(err));  
