@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/error');
-// const User = require('./models/user');
+const User = require('./models/user');
 
 
 const app = express();   
@@ -18,14 +18,14 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//     User.findById('5eaec41c3b43c24eef83172f')
-//     .then(user => {
-//         console.log(user);
-//         req.user = new User(user.name, user.email, user.cart, user._id);
-//         next();              
-//     })
-// });
+app.use((req, res, next) => {
+    User.findById('5ebd3702fa127607e0b1607a')
+    .then(user => {
+        console.log(user);
+        req.user = user;
+        next();              
+    })
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -34,6 +34,20 @@ app.use(errorController.get404);
 
 mongoose.connect('mongodb+srv://tejesh:jeIJ3EMjPYgesXG8@max-node-vpc9g.mongodb.net/shop?retryWrites=true&w=majority')
 .then(result => {
+    // create a user if it does not exist before start listening to requests.
+    User.findOne()
+    .then(user => {
+        if(!user) {
+            const user = new User({
+                name: 'Tejesh',
+                email: 'tejesh@gmail.com',
+                cart: {
+                    items: []
+                }
+            })
+            user.save();
+        }
+    })
     app.listen(3000);
 })
 .catch(err => console.log(err));
